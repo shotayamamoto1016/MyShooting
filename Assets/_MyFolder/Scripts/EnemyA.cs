@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyA : MonoBehaviour
@@ -14,6 +15,8 @@ public class EnemyA : MonoBehaviour
    
     void Update()
     {
+        
+
         //“G‚ð‰ºŒü‚«‚É“®‚©‚·
         moveDir = new Vector3(0, -1, 0);
 
