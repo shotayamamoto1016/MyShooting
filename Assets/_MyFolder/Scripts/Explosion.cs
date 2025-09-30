@@ -7,6 +7,12 @@ public class Explosion : MonoBehaviour
     {
         Destroy(gameObject);
     }
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
+      
+    //サイズ変更
+    //SetSize(2.0f)と呼び出すとsizeの値も2.0fになる
+    public void SetSize(float size)
+    {
+        transform.localScale = new Vector3(size, size, size);
+    }
     
 }

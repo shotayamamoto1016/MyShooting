@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3af68512606bc43b1ad036e6f40326, type: 3}
+  m_Name: Stage2
+  m_EditorClassIdentifier: 
+  stage:
+  - waveType: 2
+    wavePrefab: {fileID: 4758633678416711250, guid: d5b6586ffa6ba0f41b03b2579c7b62b3, type: 3}
+    delay: 1
+    completFlg: 1
+  - waveType: 0
+    wavePrefab: {fileID: 2897473172608292308, guid: 79a846b93c0001b4195c2f76b3b1f504, type: 3}
+    delay: 5
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 613028595615089449, guid: 4a2851c13af7c9b4bbbef3b26dc90d15, type: 3}
+    delay: 10
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 6265010677906483051, guid: 347644e8f3a1908468f5b0e6eafef744, type: 3}
+    delay: 20
+    completFlg: 0
+  - waveType: 1
+    wavePrefab: {fileID: 166257118558141711, guid: 63da3e50bc1f75d4a97149efb17cc002, type: 3}
+    delay: 30
+    completFlg: 1
+  - waveType: 3
+    wavePrefab: {fileID: 9216149294850837187, guid: 673614d77c832ff4cb902ebd6633881d, type: 3}
+    delay: 5
+    completFlg: 1
+  - waveType: 4
+    wavePrefab: {fileID: 8824340172163251171, guid: 24c6df55f138a6341825dc3b92521e6c, type: 3}
+    delay: 5
+    completFlg: 1

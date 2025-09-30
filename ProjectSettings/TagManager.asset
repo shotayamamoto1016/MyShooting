@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - PlayerBullet
+  - EnemyBullet
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -49,8 +51,14 @@ TagManager:
   - name: Bullet
     uniqueID: 2899505187
     locked: 0
+  - name: Enemy
+    uniqueID: 1767949785
+    locked: 0
   - name: Player
     uniqueID: 1062056887
+    locked: 0
+  - name: EnemyBullet
+    uniqueID: 392233347
     locked: 0
   m_RenderingLayers:
   - Default

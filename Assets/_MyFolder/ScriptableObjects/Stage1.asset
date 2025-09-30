@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e3af68512606bc43b1ad036e6f40326, type: 3}
+  m_Name: Stage1
+  m_EditorClassIdentifier: 
+  stage:
+  - waveType: 2
+    wavePrefab: {fileID: 4758633678416711250, guid: d5b6586ffa6ba0f41b03b2579c7b62b3, type: 3}
+    delay: 1
+    completFlg: 1
+  - waveType: 0
+    wavePrefab: {fileID: 5859016127063698039, guid: c16360a19a9102b4e82c8bdeef13daf9, type: 3}
+    delay: 3
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 5123760856690217431, guid: 8b21b47c5c482c34380c7a6c28d16577, type: 3}
+    delay: 3
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 2607396074855689068, guid: 2cf6f25abb496914db9d92e3af9b2376, type: 3}
+    delay: 3
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 211222661041901889, guid: 5470c85c96238f546b27d8900dcd4f1e, type: 3}
+    delay: 3
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 8702837887000547048, guid: d8ea0ee5daf87404babbdd610e019436, type: 3}
+    delay: 4
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 2897473172608292308, guid: 79a846b93c0001b4195c2f76b3b1f504, type: 3}
+    delay: 8
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 4723157492225375624, guid: 22bac0581adcea54995860671b06aa0d, type: 3}
+    delay: 10
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 7196223915926894130, guid: a9585f010002ef44ebda224e971b09ea, type: 3}
+    delay: 10
+    completFlg: 0
+  - waveType: 0
+    wavePrefab: {fileID: 6265010677906483051, guid: 347644e8f3a1908468f5b0e6eafef744, type: 3}
+    delay: 14
+    completFlg: 0
+  - waveType: 1
+    wavePrefab: {fileID: 166257118558141711, guid: 63da3e50bc1f75d4a97149efb17cc002, type: 3}
+    delay: 30
+    completFlg: 1
+  - waveType: 3
+    wavePrefab: {fileID: 9216149294850837187, guid: 673614d77c832ff4cb902ebd6633881d, type: 3}
+    delay: 5
+    completFlg: 1
