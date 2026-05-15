@@ -39,6 +39,8 @@ public class EnemyController : MonoBehaviour
     //アイテム出現フラグ
     public bool itemDrop;
 
+    GameDirector director;
+
     //弾を発射(弾のスピードを調整)
     //protectedはクラス自身または継承したクラスからアクセス可能
     //virtualサブクラスでoverrideすることで処理を上書きできる
@@ -62,10 +64,9 @@ public class EnemyController : MonoBehaviour
     //カメラ型の変数
      Camera mainCamera;
 
-    //private CancellationToken token;
+    //死亡フラグ
+    bool isDead = false;
 
-    //キャンセルトークン
- // CancellationTokenSource cancelToken;
 
     protected virtual void Start()
     {
@@ -77,17 +78,18 @@ public class EnemyController : MonoBehaviour
         //ダメージ中にスプライトの色を変化させるために取得
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        //token = this.GetCancellationTokenOnDestroy();
+        director = GameObject.Find("GameDirector").GetComponent<GameDirector>();
 
-        //キャンセルトークンの生成 
-        //cancelToken = new CancellationTokenSource();
-               //CancellationTokenの取得  
-       // CancellationToken token = cancelToken.Token;
     }
 
     //移動
     protected virtual void Move(Vector3 moveDir)
     {
+        if (director != null && director.stopFlag == true)
+        {
+            return;
+        }
+
         transform.position += moveDir * speed * Time.deltaTime;
     }
 
@@ -121,12 +123,18 @@ public class EnemyController : MonoBehaviour
     //ダメージを受けてHPを減らす
     protected virtual async void Damage(int d)
     {
+        //すでに死んでいるなら何もしない
+        if (isDead) return;
+
         //HPを減らす
         currentHp -= d;
 
         //HP0で消滅
         if(currentHp <= 0)
         {
+            //HPが0になった瞬間に死亡フラグを立てる
+            isDead = true;
+
             Destroy(gameObject);
 
             //爆弾エフェクト
@@ -143,11 +151,6 @@ public class EnemyController : MonoBehaviour
             //スコア値をセット
             flyScore.GetComponent<FlyText>().SetText(score.ToString());
 
-            //ドロップアイテム
-            if(itemPrefab != null && itemDrop == true)
-            {
-                Instantiate(itemPrefab, transform.position, Quaternion.identity);
-            }
         }
 
         //ダメージ時処理

@@ -6,118 +6,145 @@ using System.Threading;
 
 public class Wave : MonoBehaviour
 {
-    //敵スポーンの情報クラス
-    //カスタムクラスを表示するために使用
     [System.Serializable]
     public class EnemySpawn
     {
-        public Transform spawnPos;      //出現する場所オブジェクト
-        public GameObject enemyPrefab;  //出現する敵の種類
-        public float delay;             //出現するまでの待機時間
-        public bool itemDrop;           //アイテムドロップ対象
+        public Transform spawnPos;
+        public GameObject enemyPrefab;
+        public float delay;
     }
 
-    //Waveの詳細説明
     [SerializeField] string detail;
-    //敵スポーン情報リスト
     [SerializeField] EnemySpawn[] enemySpawns;
+    CancellationTokenSource cancelToken;
 
-    //キャンセルトクーン
-     CancellationTokenSource cancelToken;
+    //デバッグ用フラグ
+    private bool hasStarted = false;
 
-   // private CancellationToken token;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-   async void Start()
+    void OnEnable()
     {
-        //キャンセルトークンの生成 
-         cancelToken = new CancellationTokenSource();
+        Debug.Log($"[Wave] OnEnable呼び出し - hasStarted: {hasStarted}");
 
-        //キャンセルトークンの取得
-         CancellationToken token = cancelToken.Token;
+        //既に開始済みなら再実行
+        if (!hasStarted)
+        {
+            hasStarted = true;
+            StartWaveAsync().Forget();
+        }
+        else
+        {
+            Debug.LogWarning("[Wave] 既に開始済みのため、再実行します");
+            StartWaveAsync().Forget();
+        }
+    }
 
-        // GameObjectがDestroyされたら自動キャンセルされるトークンを取得
-       // token = this.GetCancellationTokenOnDestroy();
+    async UniTaskVoid StartWaveAsync()
+    {
+        Debug.Log("[Wave] StartWaveAsync開始");
 
-        //敵スポーンリストから敵をスポーンさせる
+        //前回のトークンが残っていたら破棄
+        if (cancelToken != null)
+        {
+            Debug.Log("[Wave] 既存のトークンをキャンセル");
+            cancelToken.Cancel();
+            cancelToken.Dispose();
+        }
+
+        //新しいトークンを作成
+        cancelToken = new CancellationTokenSource();
+        CancellationToken token = cancelToken.Token;
+
+        Debug.Log($"[Wave] enemySpawnsの数: {enemySpawns.Length}");
+
+        List<UniTask> spawnTasks = new List<UniTask>();
+
+        //敵を出す
         foreach (EnemySpawn spawn in enemySpawns)
         {
-            Spawn(spawn);
+            Debug.Log($"[Wave] Spawn追加 - enemy: {spawn.enemyPrefab?.name}, delay: {spawn.delay}");
+            spawnTasks.Add(Spawn(spawn, token));
         }
 
-        //Waveの子要素のEnemyが全て削除されるまで待機
         try
         {
-            //Waveの子要素のEnemyが全て削除されるまで待機
-            //子オブジェクトが0かどうか判定する
+            Debug.Log("[Wave] 全てのスポーンタスク開始");
+            await UniTask.WhenAll(spawnTasks);
+            Debug.Log("[Wave] 全てのスポーンタスク完了");
+
+            //敵が生成されるまで少し待つ
+            await UniTask.Delay(100, cancellationToken: token);
+            Debug.Log($"[Wave] 子オブジェクト数: {transform.childCount}");
+
+            //敵がいなくなるまで待機
             await UniTask.WaitUntil(() => transform.childCount == 0, PlayerLoopTiming.Update, token);
+            Debug.Log("[Wave] 全ての敵が倒された");
+
+            //キャンセルされていなければ破棄
+            if (!token.IsCancellationRequested)
+            {
+                Debug.Log("[Wave] Wave完了 - オブジェクトを破棄");
+                Destroy(gameObject);
+            }
         }
-        catch (System.OperationCanceledException e)
+        catch (System.OperationCanceledException)
         {
-            Debug.Log($"Wave子要素が0になるまでの待機処理がキャンセルされました >> " + e);
+            Debug.Log("[Wave] Waveの処理が正常にキャンセルされました");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"[Wave] エラー発生: {e.Message}\n{e.StackTrace}");
+        }
+    }
 
-            cancelToken.Cancel();
+    async UniTask Spawn(EnemySpawn spawn, CancellationToken token)
+    {
+        Debug.Log($"[Spawn] 開始 - delay: {spawn.delay}秒");
 
-            //ここでStartを終わらせる
+        //指定の時間待つ
+        await UniTask.Delay((int)(spawn.delay * 1000f), cancellationToken: token);
+
+        Debug.Log($"[Spawn] 待機完了 - enemy: {spawn.enemyPrefab?.name}");
+
+        if (this == null || token.IsCancellationRequested)
+        {
+            Debug.LogWarning("[Spawn] キャンセルされたため中断");
             return;
         }
 
-        //Waveの削除
-        Destroy(gameObject);
-    }
-
-    //敵をスポーンさせる
-    async void Spawn(EnemySpawn spawn)
-    {
-        //Delay時間待機
-        await UniTask.Delay((int)(spawn.delay * 1000f));
-        //敵生成
-        GameObject enemy = Instantiate(spawn.enemyPrefab, spawn.spawnPos.position, Quaternion.identity);
-        //生成した敵を子要素に追加
-        //次の敵を生成し管理用親オブジェクトに入れる
-        if(enemy != null)
-        {
-            enemy.transform.parent = transform;
-        }
-
-        //アイテムドロップフラグをセット
-        enemy.GetComponent<EnemyController>().itemDrop = spawn.itemDrop;
-
         if (spawn.spawnPos != null)
         {
-            //スポーン場所オブジェクトを削除
+            GameObject enemy = Instantiate(spawn.enemyPrefab, spawn.spawnPos.position, Quaternion.identity);
+            enemy.transform.SetParent(this.transform);
+
+            Debug.Log($"[Spawn] 敵生成成功: {enemy.name} at {spawn.spawnPos.position}");
+
+            var controller = enemy.GetComponent<EnemyController>();
+          
+          
             Destroy(spawn.spawnPos.gameObject);
         }
-        
-       
+        else
+        {
+            Debug.LogError("[Spawn] spawnPosがnullです！");
+        }
     }
 
-    //破棄された時に自動的に呼ばれる
     void OnDestroy()
     {
+        Debug.Log("[Wave] OnDestroy呼び出し");
         if (cancelToken != null)
         {
             cancelToken.Cancel();
+            cancelToken.Dispose();
         }
     }
 
-    //オブジェクトが非アクティブになったとき
     private void OnDisable()
     {
+        Debug.Log("[Wave] OnDisable呼び出し");
         if (cancelToken != null)
         {
             cancelToken.Cancel();
         }
     }
-
-    //アプリが終了したとき
-    private void OnApplicationQuit()
-    {
-        if (cancelToken != null)
-        {
-            cancelToken.Cancel();
-        }
-    }
-
-
 }

@@ -31,8 +31,7 @@ public class StageData : ScriptableObject
     //ステージを構成するWave情報のリスト
     public List<WaveInfo> stage = new List<WaveInfo>();
 
-    //背景プレハブ
-   // public GameObject background;
+   
 
 
 }

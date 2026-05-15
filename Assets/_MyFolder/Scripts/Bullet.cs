@@ -7,13 +7,14 @@ public class Bullet : MonoBehaviour
     //弾のスピード
     [SerializeField] float speed = 10f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
-        
+        // 弾のスピードのをDataManagerから取得する
+        speed = 10f + (DataManager.instance.playerSpeedLevel * 0.5f);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
         //移動

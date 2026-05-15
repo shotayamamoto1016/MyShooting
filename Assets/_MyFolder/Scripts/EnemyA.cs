@@ -6,9 +6,6 @@ using UnityEngine;
 public class EnemyA : EnemyController
 {
     Vector3 moveDir;
-
-    [SerializeField] int maxHP = 3;
-    
     protected override void Start()
     {
         //親クラスのStart()を実行

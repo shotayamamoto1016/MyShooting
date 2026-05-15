@@ -141,18 +141,6 @@ public class GSound
         //指定フィアルがない
         if (poolSe.ContainsKey(fileName) == false) return false;
 
-        //リソースの取得
-       // AudioSource source = GetAudioSource(Type.se);
-        
-       // AudioClip clip = poolSe[fileName];
-
-        //音量設定
-       // source.volume = seVolume;
-
-        //再生
-       // source.PlayOneShot(clip);
-
-
         //SEをキューに登録
         if(seQueue.Count < maxSeCount)
         {

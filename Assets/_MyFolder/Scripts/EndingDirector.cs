@@ -83,13 +83,6 @@ public class EndingDirector : MonoBehaviour
         //DOTween実行
         sequence.SetLink(gameObject).Play();
 
-        ////エンドクレジットの時点
-        //Vector3 endCreditFinishPos = endCredit.anchoredPosition;
-
-        ////終点Y座標は自身の高さとスクリーンの高さの合計
-        //endCreditFinishPos.y = endCredit.rect.height + screenSize.y;
-
-
         // Canvas の高さ（UI座標系）
         var canvasRect = endCredit.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
 

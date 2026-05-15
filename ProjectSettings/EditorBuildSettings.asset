@@ -9,11 +9,50 @@ EditorBuildSettings:
     path: Assets/_MyFolder/Scenes/00_Title.unity
     guid: bbd0df6872e2a3e47ab7d7a1213d3bc5
   - enabled: 1
-    path: Assets/_MyFolder/Scenes/02_Game.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/_MyFolder/Scenes/01_Select.unity
+    guid: 0ba1d789639ac534ba72f1cd177edf8e
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/04_Stage1.unity
+    guid: 5fb908e6e85099f4c8829845a65a2fe4
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/05_Stage2.unity
+    guid: 3bca4bc39e751ed46b9b11aa26f6bc1f
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/06_Stage3.unity
+    guid: ac4c91a6c4872ad479c727222a14940f
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/07_Stage4.unity
+    guid: 4e992f21fb65e1d4b8d078162babaff6
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/08_Stage5.unity
+    guid: 6f8937e5bb536534a921ee8243dc3b9e
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/09_Stage6.unity
+    guid: f1dab8d47fa6edf48828edd79f8327f5
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/10_Stage7.unity
+    guid: 5d817d9415cdf15428883ba96acaa0f7
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/11_Stage8.unity
+    guid: cf386455c39a622469e8de91e04afe14
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/12_Stage9.unity
+    guid: dd1d5661e86edee4e9760523b469fc96
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/13_Stage10.unity
+    guid: e98686f268f639845a269bda9c074d10
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/14_Stage11.unity
+    guid: ecba5cb6e39ad1b4e920cf7da3b4a134
+  - enabled: 1
+    path: Assets/_MyFolder/Scenes/15_Stage12.unity
+    guid: 62b85be03d077df4784c992c0b0f27cd
   - enabled: 1
     path: Assets/_MyFolder/Scenes/03_Ending.unity
     guid: b8b635e4a1ee72e4f968249ce0e0cbd2
+  - enabled: 0
+    path: Assets/_MyFolder/Scenes/02_Game.unity
+    guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

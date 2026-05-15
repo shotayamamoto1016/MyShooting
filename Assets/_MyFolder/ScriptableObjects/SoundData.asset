@@ -14,13 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BgmSounds:
   - name: 1
-    clip: {fileID: 8300000, guid: 4ec0c14e634b414449c1bd2860bc1314, type: 3}
+    clip: {fileID: 8300000, guid: 77c849c1e6b013f43ba600fce6d38bc9, type: 3}
   - name: 2
-    clip: {fileID: 8300000, guid: 3f4b5d941e2f43e4e850e83938342c03, type: 3}
+    clip: {fileID: 8300000, guid: 5e3b61dbe23672c4eb766bbd3f469faa, type: 3}
   - name: 3
-    clip: {fileID: 8300000, guid: d8c6f4f2d9e141a41bd2e3935796fd22, type: 3}
+    clip: {fileID: 8300000, guid: f66c1b2018285c64b80d3728af830556, type: 3}
   - name: 5
-    clip: {fileID: 8300000, guid: 84b74177ec7e1b143b6cf3272c221eae, type: 3}
+    clip: {fileID: 8300000, guid: ffc7e28a06c890a40b26ba0fb3c89241, type: 3}
+  - name: 6
+    clip: {fileID: 8300000, guid: 6ce99aac6b33c1c449eb3061d8725de2, type: 3}
   SeSounds:
   - name: 1
     clip: {fileID: 8300000, guid: 15ee51993357c9e43b68d6fa73be9ca2, type: 3}
@@ -40,5 +42,9 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: a933d3614cc08c14db7722b0c2e5b2ab, type: 3}
   - name: 9
     clip: {fileID: 8300000, guid: 0cfa237e8e64a25408d4604e42370a67, type: 3}
-  - name: 9
+  - name: 10
     clip: {fileID: 8300000, guid: b82ea13291e690f45ab86ccaf07bf924, type: 3}
+  - name: 11
+    clip: {fileID: 8300000, guid: 034f431f29a3c944c8154dec04da2ff1, type: 3}
+  - name: 12
+    clip: {fileID: 8300000, guid: abddc5cfb8e9a1e4c9c5c52bb33b6edb, type: 3}

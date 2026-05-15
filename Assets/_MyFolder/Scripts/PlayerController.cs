@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.LowLevel;
 using DG.Tweening;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -11,43 +13,22 @@ public class PlayerController : MonoBehaviour
     //publicより安全でほかのスクリプトからアクセスできない
     [SerializeField] private float speed = 5f;
 
-   // [SerializeField] private float speedUpInterval = 2f;
-
-    //弾プレハブ
-   [SerializeField] GameObject bulletPrefab;
-
-    [SerializeField] GameObject laserPrefab;
-
    //連射速度
-   [SerializeField] float shotInterval = 3.0f;
+   [SerializeField] float shotInterval = 0.3f;
    float delta;
 
-   //弾の発射位置
-   [SerializeField] Transform singleShot;
+    [Header("ショット設定")]
+    [SerializeField] GameObject bulletPrefab; 
+    [SerializeField] GameObject laserPrefab;  
 
-    [SerializeField] Transform laserShotR;
-
-    [SerializeField] Transform laserShotL;
-
-    [SerializeField] Transform tripleShotR;
-
-    [SerializeField] Transform tripleShotL;
-
-    [SerializeField] Transform quintupleShotR;
-
-    [SerializeField] Transform quintupleShotL;
+    [Header("発射位置")]
+    [SerializeField] Transform singleShot;
+    [SerializeField] Transform laserShotR, laserShotL;
+    [SerializeField] Transform tripleShotR, tripleShotL;
+    [SerializeField] Transform quintupleShotR, quintupleShotL;
 
     //ショットレベル
-    int shotLevel;
-
-    //アイテムカウントの宣言
-    [SerializeField] int itemCount = 0;
-
-    //パワーアップの間隔を宣言
-    [SerializeField] int powarUpInterval = 5;
-
-    //スピードアップするためのカウント宣言
-    [SerializeField] int speedUpCount = 0;
+    private int shotLevel;
 
     //爆弾エフェクトプレハブを宣言
     [SerializeField] GameObject explosionPrefab;
@@ -85,6 +66,37 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // 現在のシーン名を取得
+        string currentScene = SceneManager.GetActiveScene().name;
+
+
+        if (currentScene == "00_Title") 
+        {
+            // タイトル画面用の初期設定
+            shotLevel = 0;           // 初期ショット
+            shotInterval = 0.5f;     // 基本速度
+            speed = 5.0f;            // 基本スピード
+        }
+
+        else
+        {
+           
+            if (DataManager.instance != null)
+            {
+                // ショップで上げたレベルを読み込む
+                shotLevel = DataManager.instance.shotPowerLevel - 1;
+
+                // ショット間隔をレベルに応じて計算
+                shotInterval = 0.3f - (DataManager.instance.shotIntervalLevel * 0.05f);
+
+                // 移動速度
+                speed = 5f + (DataManager.instance.playerSpeedLevel * 0.5f);
+
+                // オプションを生成
+                SpawnOptionsFromLevel();
+            }
+        }
+
         //コンポーネント取得
         _animator = GetComponent<Animator>();
 
@@ -105,9 +117,10 @@ public class PlayerController : MonoBehaviour
         color.a = 0.25f;
 
         GetComponent<SpriteRenderer>().color = color;
+
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         //自動移動モードの時は操作不要
@@ -134,68 +147,20 @@ public class PlayerController : MonoBehaviour
         //左Ctrl(Macはcontrolキー及びマウス左クリック及びZキー)
          if (Input.GetButton("Fire1") || Input.GetKey(KeyCode.Z))
         {
+            //マウスがUIの上にある時は弾を発射しない
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+
             if (delta > shotInterval)
           {
-             //ショットレベルごとに弾と発射位置を変更
-             switch(shotLevel)
-                {
-                    //ショットレベル0
-                    case 0:
-                        //弾をsingleshotの位置と向きで生成
-                        Instantiate(bulletPrefab, singleShot.position, singleShot.rotation);
-                        break;
-
-                    //ショットレベル1
-                    case 1:
-                        //弾をlasershotの位置と向きで生成
-                        Instantiate(laserPrefab, laserShotR.position, laserShotR.rotation);
-                        Instantiate(laserPrefab, laserShotL.position, laserShotL.rotation);
-                        break;
-
-                    //ショットレベル2
-                    case 2:
-                        //弾をlasershotの位置と向きで生成
-                        Instantiate(laserPrefab, laserShotR.position, laserShotR.rotation);
-                        Instantiate(laserPrefab, laserShotL.position, laserShotL.rotation);
-
-                        //弾をtripleshotの位置と向きで生成
-                        Instantiate(bulletPrefab, tripleShotR.position, tripleShotR.rotation);
-                        Instantiate(bulletPrefab, tripleShotL.position, tripleShotL.rotation);
-                        break;
-
-                    //ショットレベル３
-                    case 3:
-                        //弾をlasershotの位置と向きで生成
-                        Instantiate(laserPrefab, laserShotR.position, laserShotR.rotation);
-                        Instantiate(laserPrefab, laserShotL.position, laserShotL.rotation);
-
-                        //弾をtripleshotの位置と向きで生成
-                        Instantiate(bulletPrefab, tripleShotR.position, tripleShotR.rotation);
-                        Instantiate(bulletPrefab, tripleShotL.position, tripleShotL.rotation);
-
-                        //弾をQuintupleShotの位置と向きで生成
-                        Instantiate(bulletPrefab, quintupleShotR.position, quintupleShotR.rotation);
-                        Instantiate(bulletPrefab, quintupleShotL.position, quintupleShotL.rotation);
-
-                        break;
-                }
-
+     
+                //switch文はShootメソッドへ任せる
+                Shoot();
 
                 delta = 0;
 
-                //オプションにも攻撃させる
-                if(options.Count > 0)
-                {
-                    foreach (GameObject option in options)
-                    {
-                        option.GetComponent<Option>().Shot();
-                    }
-                }
-
-                //弾を発射した時のSE
-                string seName = SoundData.SeType.shot.ToString();
-
-                GSound.Instance.PlaySe(seName);
           }
         }
 
@@ -211,6 +176,15 @@ public class PlayerController : MonoBehaviour
             playerPos.y = Mathf.Clamp(playerPos.y, -worldSize.y, worldSize.y);
             transform.position = playerPos;
 
+        }
+
+        //位置履歴を保存
+        playerPosHistory.Enqueue(transform.position);
+
+        // 最大数を超えたら古いものを消す
+        if (playerPosHistory.Count > maxHistoryCount)
+        {
+            playerPosHistory.Dequeue();
         }
     }
 
@@ -237,7 +211,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
+    // プレイヤーが破壊されたとき、オプションも一緒に消す
+    void OnDestroy()
+    {
+        
+        if (options != null)
+        {
+            foreach (GameObject option in options)
+            {
+                if (option != null)
+                {
+                    Destroy(option);
+                }
+            }
+            // リストを空にする
+            options.Clear(); 
+        }
+    }
 
 
     //敵と触れたら自分を破壊する
@@ -260,9 +250,6 @@ public class PlayerController : MonoBehaviour
 
             //残機確認
             GameObject.Find("GameDirector").GetComponent<GameDirector>().CreatePlayer();
-
-            //置き去りオプションをアイテムに変換
-            ConvertOptionToItem();
         }
 
         //アイテム取得
@@ -278,61 +265,9 @@ public class PlayerController : MonoBehaviour
                 {
                     //ショットパワーアップ
                     case Item.ItemType.powerUp:
-                        //アイテムを取得した時のSE
-                        string seName = SoundData.SeType.item1.ToString();
-
-                        GSound.Instance.PlaySe(seName);
-                        itemCount++;
-
-                        if(itemCount >= powarUpInterval)
-                        {
-                            shotLevel++;
-
-                            shotLevel = Mathf.Clamp(shotLevel, 0, 3);
-
-                            itemCount = 0;
-                        }
-
-                        speedUpCount++;
-
-                        if(speedUpCount  == 10)
-                        {
-                            speed += 1;
-
-                            speedUpCount = 0;
-                        }
-                        //shotLevel++;
-                      //  shotLevel = Mathf.Clamp(shotLevel, 0, 2);
-                        break;
-
-                    //オプション追加
-                    case Item.ItemType.option:
-                        //アイテムを取得した時のSE
-                       string se2Name = SoundData.SeType.item2.ToString();
-
-                        GSound.Instance.PlaySe(se2Name);
-
-                        //オプション生成
-                        if (options.Count < 5)
-                        {
-                            GameObject option = Instantiate(optionPrefab, transform.position, Quaternion.identity);
-
-                            //オプションがプレイヤから離れて追従するフレーム数
-                            int delayFrame = option.GetComponent<Option>().delayFrame;
-
-                            option.GetComponent<Option>().delayFrame = delayFrame + options.Count * delayFrame;
-
-                            //オプションの数を増やす
-                            options.Add(option);
-                        }
-
+                       
                         break;
                 }
-
-                //アイテムを取得した時のSE
-                //string seName = SoundData.SeType.item1.ToString();
-
-              // GSound.Instance.PlaySe(seName);
             }
         }
 
@@ -393,4 +328,73 @@ public class PlayerController : MonoBehaviour
         //リスト内をクリア
         options.Clear();
     }
+
+    void Shoot()
+    {
+        // ショットレベルごとに弾と発射位置を変更
+        switch (shotLevel)
+        {
+            case 0: // シングル
+                Instantiate(bulletPrefab, singleShot.position, singleShot.rotation);
+                break;
+
+            case 1: // レーザー2本
+                Instantiate(laserPrefab, laserShotR.position, laserShotR.rotation);
+                Instantiate(laserPrefab, laserShotL.position, laserShotL.rotation);
+                break;
+
+            case 2: // レーザー2本 + 斜め2本
+                Instantiate(laserPrefab, laserShotR.position, laserShotR.rotation);
+                Instantiate(laserPrefab, laserShotL.position, laserShotL.rotation);
+                Instantiate(bulletPrefab, tripleShotR.position, tripleShotR.rotation);
+                Instantiate(bulletPrefab, tripleShotL.position, tripleShotL.rotation);
+                break;
+
+            case 3: // レーザー2本 + 斜め4本
+                Instantiate(laserPrefab, laserShotR.position, laserShotR.rotation);
+                Instantiate(laserPrefab, laserShotL.position, laserShotL.rotation);
+                Instantiate(bulletPrefab, tripleShotR.position, tripleShotR.rotation);
+                Instantiate(bulletPrefab, tripleShotL.position, tripleShotL.rotation);
+                Instantiate(bulletPrefab, quintupleShotR.position, quintupleShotR.rotation);
+                Instantiate(bulletPrefab, quintupleShotL.position, quintupleShotL.rotation);
+                break;
+        }
+
+        //オプションにも攻撃させる
+        if (options.Count > 0)
+        {
+            foreach (GameObject option in options)
+            {
+                option.GetComponent<Option>().Shot();
+            }
+        }
+
+        //弾を発射した時のSE
+        string seName = SoundData.SeType.shot.ToString();
+
+        GSound.Instance.PlaySe(seName);
+    }
+
+    void SpawnOptionsFromLevel()
+    {
+        if (DataManager.instance == null) return;
+
+        // ショップで上げたレベルを取得
+        int count = DataManager.instance.optionCountLevel;
+
+        for (int i = 0; i < count; i++)
+        {
+            // プレイヤーと同じ位置に生成
+            GameObject option = Instantiate(optionPrefab, transform.position, Quaternion.identity);
+
+            // オプションの設定
+            Option optionScript = option.GetComponent<Option>();
+            int baseDelay = optionScript.delayFrame;
+            optionScript.delayFrame = baseDelay + (options.Count * baseDelay);
+
+            // リストに追加
+            options.Add(option);
+        }
+    }
+
 }

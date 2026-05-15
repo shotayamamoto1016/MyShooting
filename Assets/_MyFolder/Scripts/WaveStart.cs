@@ -8,7 +8,9 @@ public class WaveStart : MonoBehaviour
     [SerializeField] TextMeshProUGUI stageText;
 
     [SerializeField] TextMeshProUGUI startText;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    private Tween flashTween;
+    
     void Start()
     {
         //DOTween処理　3秒間に7回点滅
@@ -27,9 +29,22 @@ public class WaveStart : MonoBehaviour
           });
     }
 
+
+    //点滅を一時停止
+    public void PauseTween()
+    {
+        flashTween?.Pause();
+    }
+
+    //点滅を再開
+    public void ResumeTween()
+    {
+        flashTween?.Play();
+    }
+
     //ステージ数をセット
     public void SetStageNum(int stageNum)
     {
-        stageText.text = "STAGE" + stageNum;
+        stageText.text = "STAGE " + stageNum;
     }
 }

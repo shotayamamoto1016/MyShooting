@@ -54,20 +54,15 @@ public class EnemyBoss : EnemyController
     //前進モードフラグ
     bool moveForward = true;
 
-   // private CancellationToken token;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     protected override  void Start()
     {
         base.Start();
 
         //初期座標
         firstPos = transform.position;
-
-       // token = this.GetCancellationTokenOnDestroy();
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         //前進モード

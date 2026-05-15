@@ -61,7 +61,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -186,12 +186,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 1
-  maxHp: 30
+  maxHp: 10
   explosionPrefab: {fileID: 6184057756594648308, guid: e5f3974ea58521d448f25bc873c29507, type: 3}
   explosionSize: 1
-  score: 2000
+  score: 4000
   flyScorePrefab: {fileID: 6195570007999503192, guid: 42baada25032be04a94f468788701d41, type: 3}
   itemPrefab: {fileID: 3431460185567721039, guid: 7d69a39ead4f9964d93c5bf88e7e4921, type: 3}
+  itemDrop: 0
   bulletPrefab: {fileID: 419113613460462981, guid: b9083dc2a8edd33489380c43859d2230, type: 3}
   shotInterval: 3
   shotPositions:

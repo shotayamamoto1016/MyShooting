@@ -18,7 +18,7 @@ public class Background : MonoBehaviour
 　　//cacheObjは、リスト要素を入れ替えるときの一時保管場所
     Transform cacheObj;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    
     void Start()
     {
         //foreachは、コレクションの要素を順番にとりだす
@@ -48,7 +48,7 @@ public class Background : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+   
     void Update()
     {
         //child(個々の背景オブジェクト)をリスト化したものを順番に取り出す

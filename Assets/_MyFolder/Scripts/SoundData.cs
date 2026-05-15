@@ -14,6 +14,7 @@ public class SoundData : ScriptableObject
         clear,
         gmameOver,
         title,
+        select,
     }
 
     //SE’è‹`
@@ -30,6 +31,8 @@ public class SoundData : ScriptableObject
         enemyDamage,
         bossShot1,
         bossShot2,
+        botton1,
+        powerUp,
     }
 
     //BGM‚ğŠÇ—‚·‚éƒNƒ‰ƒX

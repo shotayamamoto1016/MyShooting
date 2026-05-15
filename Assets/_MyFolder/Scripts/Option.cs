@@ -23,14 +23,12 @@ public class Option : MonoBehaviour
     //弾の発射位置
     [SerializeField] Transform shotPos;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         //プレイヤ取得
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         //遅延フレーム分遅れたプレイヤの位置

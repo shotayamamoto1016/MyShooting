@@ -190,7 +190,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -209,7 +209,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1062056887
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: -2311659948842064771, guid: 6520dda4a70dfbf40a55b7af39ecda4e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -257,9 +257,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  shotInterval: 0.3
   bulletPrefab: {fileID: 8867754551965078641, guid: dd17f751faa22214aa3b9d4a30c9f002, type: 3}
   laserPrefab: {fileID: 6023830817965252318, guid: 13d2a8ba8c7130443bfaead5f31a584e, type: 3}
-  shotInterval: 0.2
   singleShot: {fileID: 8442023021911949542}
   laserShotR: {fileID: 5828590311804995211}
   laserShotL: {fileID: 70390473358672521}

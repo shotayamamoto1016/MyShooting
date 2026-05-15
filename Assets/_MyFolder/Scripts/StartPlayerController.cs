@@ -9,8 +9,6 @@ public class StartPlayerController : MonoBehaviour
     //publicより安全でほかのスクリプトからアクセスできない
     [SerializeField] private float speed = 5f;
 
-    // [SerializeField] private float speedUpInterval = 2f;
-
     //連射速度
     [SerializeField] float shotInterval = 3.0f;
     float delta;

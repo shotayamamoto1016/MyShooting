@@ -6,11 +6,16 @@ using TMPro;
 
 public class WaveClear : MonoBehaviour
 {
+    //クリアテキスト
     [SerializeField] TextMeshProUGUI clearText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        //メニューボタンを非表示 
+        InGameMenuController menuController = Object.FindFirstObjectByType<InGameMenuController>();
+        if (menuController != null)
+            menuController.HideMenuButton();
+
         //文字を透明化
         Color color = clearText.color;
 
@@ -28,13 +33,16 @@ public class WaveClear : MonoBehaviour
         sequence.Append(clearText.DOFade(1f, 1f));
 
         //待機
-        sequence.AppendInterval(2f);
+        sequence.AppendInterval(5f);
 
         //フェードアウト
         //1秒かけて透明度を0にする(完全に透明)
-    　　//.OnCompleteをつけてフェードアウト完了後に処理を追加
+        //.OnCompleteをつけてフェードアウト完了後に処理を追加
         sequence.Append(clearText.DOFade(0f, 1f)).OnComplete(() => {
-            Destroy(gameObject);
+            if (GameDirector.instance != null)
+            {
+                GameDirector.instance.OnStageClear();
+            }
         });
 
         //DOTween実行
@@ -42,5 +50,7 @@ public class WaveClear : MonoBehaviour
         sequence.SetLink(gameObject).Play();
     }
 
-   
+
+
+
 }
