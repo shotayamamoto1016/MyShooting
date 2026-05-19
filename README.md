@@ -226,7 +226,7 @@ Assets/
 ## 📝 詳細記事
 
 開発で工夫した点・難しかった点などの詳細はQiitaにまとめています。  
-👉 Qiitaの記事URL（https://qiita.com/shota20041016/private/6bfbb003faf2a669301a）
+👉 Qiitaの記事URL（https://qiita.com/shota20041016/items/6bfbb003faf2a669301a）
 
 ## 👤 開発者
 
